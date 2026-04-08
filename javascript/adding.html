@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>hello</h1>
+    <script>
+      let num = 1234;
+      // reversing each elment from above string
+
+      while (num > 0) {
+        let rev = num % 10;
+        let rev1 = Math.floor(num / 10) % 10;
+        console.log(rev1);
+      }
+      //checking whether no . is amstrong
+      let number = 153;
+      while (number > 0) {
+        let rem = number % 10;
+        let cube = rem * rem * rem + cube;
+      }
+
+      //factorial
+
+      let fact = 1;
+      let n = 5;
+      for (let i = 1; i <= n; i++) {
+        fact = fact * i;
+      }
+
+      console.log(fact);
+
+      //checking the number is prime or not
+      // let n1 = 7;
+      // let isPrime = true;
+      // for (let i = 2; i <= Math.sqrt(n1); i++) {
+      //   if (n1 % i === 0) {
+      //     isPrime = false;
+      //     break;
+      //   }
+      // }
+
+      let isPrime1 = true;
+      for (let i = 2; i <= Math.sqrt(num3); i++) {
+        if (num3 % i === 0) {
+          isPrime1 = false;
+          break;
+        }
+      }
+      if (isPrime1) {
+        console.log("prime");
+      } else {
+        console.log("not prime");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Eater&family=Ole&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .pagination {
+        display: flex;
+        justify-content: center;
+        list-style: none; /* remove list bullets */
+        padding: 0px;
+      }
+
+      .pagination li a {
+        /* display: block; let links fill the list item */
+        padding: 8px 12px;
+        text-decoration: none;
+        border: 1px solid gray;
+        color: black;
+        margin: 0 4px;
+        border-radius: 5px; /* add rounded borders */
+      }
+
+      .heading2 {
+        font-family: "Ole", cursive;
+        font-size: 90px;
+        text-align: center;
+      }
+      body {
+        background-image: url(bg.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+      }
+      .container {
+        height: 100px;
+        background-color: white;
+        padding-top: 50px;
+      }
+      .container2 {
+        margin-top: 500px;
+        height: 500px;
+        background-color: white;
+        padding-top: 50px;
+        display: flex;
+        width: 3000px;
+        padding: 50pxpx;
+        gap: 30px;
+      }
+      #img1 {
+        height: 300px;
+        width: 400px;
+        border-radius: 20%;
+        box-shadow: 2px 2px #6d6c6c;
+        transform: rotate(0deg);
+        transition: transform 10s;
+      }
+
+      #img1:hover {
+        transform: rotate(360deg);
+      }
+      #img2 {
+        height: 500px;
+        width: 400px;
+        border-radius: 20%;
+        box-shadow: 2px 2px #6d6c6c;
+        transform: rotate(0deg);
+        transition: transform 10s;
+        margin-top: 50px;
+      }
+
+      #img2:hover {
+        transform: rotate(360deg);
+      }
+
+      #img3 {
+        height: 300px;
+        width: 400px;
+        border-radius: 20%;
+        box-shadow: 2px 2px #6d6c6c;
+        transform: rotate(0deg);
+        transition: transform 10s;
+        margin-top: 0px;
+      }
+
+      #img3:hover {
+        transform: rotate(360deg);
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="heading2">Enhance with Clothing</h1>
+    <div class="container">
+      <ul class="pagination">
+        <li><a href="page1.html">&laquo;</a></li>
+        <li><a href="page1.html">1</a></li>
+        <li><a href="page2.html">2</a></li>
+        <li><a href="page3.html">3</a></li>
+      </ul>
+    </div>
+
+    <div class="container2">
+      <img src="model1.jpg" id="img1" />
+      <img src="model2.jpg" id="img2" />
+      <img src="model3.jpg" id="img3" />
+    </div>
+  </body>
+</html>

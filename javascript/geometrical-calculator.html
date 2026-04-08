@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Area & Perimeter Calculator</title>
+  </head>
+
+  <body>
+    <h1 style="text-align: center">geometric calculator</h1>
+    <script>
+      let option = parseInt(
+        prompt(
+          "Choose an option:\n" +
+            "1. Rectangle Area\n" +
+            "2. Square Area\n" +
+            "3. Circle Area\n" +
+            "4. Rectangle Perimeter\n" +
+            "5. Square Perimeter\n" +
+            "6. Circle Perimeter"
+        )
+      );
+
+      function rectangleArea() {
+        let l = parseFloat(prompt("Enter the length:"));
+        let b = parseFloat(prompt("Enter the breadth:"));
+        return l * b;
+      }
+
+      function squareArea() {
+        let l = parseFloat(prompt("Enter the side:"));
+        return l * l;
+      }
+
+      function circleArea() {
+        let r = parseFloat(prompt("Enter the radius:"));
+        return 3.14 * r * r;
+      }
+
+      function rectanglePerimeter() {
+        let l = parseFloat(prompt("Enter the length:"));
+        let b = parseFloat(prompt("Enter the breadth:"));
+        return 2 * (l + b);
+      }
+
+      function squarePerimeter() {
+        let l = parseFloat(prompt("Enter the side:"));
+        return 4 * l;
+      }
+
+      function circlePerimeter() {
+        let r = parseFloat(prompt("Enter the radius:"));
+        return 2 * 3.14 * r;
+      }
+
+      let result;
+
+      switch (option) {
+        case 1:
+          result = rectangleArea();
+          alert("Rectangle Area = " + result);
+          break;
+
+        case 2:
+          result = squareArea();
+          alert("Square Area = " + result);
+          break;
+
+        case 3:
+          result = circleArea();
+          alert("Circle Area = " + result);
+          break;
+
+        case 4:
+          result = rectanglePerimeter();
+          alert("Rectangle Perimeter = " + result);
+          break;
+
+        case 5:
+          result = squarePerimeter();
+          alert("Square Perimeter = " + result);
+          break;
+
+        case 6:
+          result = circlePerimeter();
+          alert("Circle Perimeter = " + result);
+          break;
+
+        default:
+          alert("Invalid option selected!");
+      }
+    </script>
+  </body>
+</html>

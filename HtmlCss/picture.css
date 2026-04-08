@@ -1,0 +1,32 @@
+div {
+  width: 100px;
+  height: 100px;
+  background-color: blueviolet;
+  transition: 2s;
+  border-radius: 50%;
+  margin: 190px 0px;
+  box-shadow: 0 10px 0 0 rgba(12, 12, 12, 0.466);
+}
+.pic:hover {
+  width: 500px;
+  height: 500px;
+  transform: rotate(0deg);
+  margin: 15px 300px;
+  background-image: url(House-sparrow.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: rotate(360deg);
+  box-shadow: 20px 10px 0 0 rgba(12, 12, 12, 0.466);
+}
+.pic2:hover {
+  width: 500px;
+  height: 500px;
+  transform: rotate(0deg);
+  margin: 15px 300px;
+  background-image: url(dog.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: rotate(-360deg);
+  box-shadow: 20px 10px 0 0 rgba(12, 12, 12, 0.466);
+  border: solid rgb(82, 80, 80);
+}

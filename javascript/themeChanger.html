@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Theme Toggle</title>
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        transition: background 0.5s ease;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      .img {
+        height: 180px;
+        width: 180px;
+        border-radius: 50%;
+        display: block;
+      }
+
+      button {
+        border-radius: 50%;
+        height: fit-content;
+        width: fit-content;
+        border: 0.03px solid rgb(136, 134, 134);
+      }
+
+      button:hover {
+        transform: scale(0.9);
+        cursor: pointer;
+        border: 2px solid rgb(122, 119, 119);
+      }
+      #theme-toggle {
+        padding: 5px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
+        cursor: pointer;
+        transition:
+          transform 0.3s,
+          border 0.3s;
+      }
+
+      #theme-toggle:hover {
+        transform: scale(1.1);
+        border: 2px solid white;
+      }
+    </style>
+  </head>
+  <body style="background-image: url(&quot;morning.jpg&quot;)">
+    <button id="theme-toggle" onclick="toggleTheme()">
+      <img id="panda-img" src="woked-panda.png" alt="theme icon" class="img" />
+    </button>
+
+    <script src="themeChanger.js"></script>
+  </body>
+</html>

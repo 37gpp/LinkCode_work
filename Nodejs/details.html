@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>FreelancePro - Services</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background-color: #f4f6f9;
+      }
+
+      header {
+        background-color: #1e1e2f;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 28px;
+      }
+
+      nav {
+        margin-top: 10px;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 14px;
+      }
+
+      nav a:hover {
+        color: #00d4ff;
+      }
+
+      .hero {
+        background: linear-gradient(to right, #00d4ff, #0072ff);
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+      }
+
+      .hero h2 {
+        font-size: 36px;
+        margin-bottom: 15px;
+      }
+
+      .hero p {
+        font-size: 18px;
+      }
+
+      .container {
+        width: 90%;
+        margin: 40px auto;
+      }
+
+      .services {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .card {
+        background: white;
+        padding: 25px;
+        width: 30%;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: 0.3s;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card h3 {
+        margin-bottom: 15px;
+        color: #0072ff;
+      }
+
+      .card p {
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .cta {
+        text-align: center;
+        margin: 50px 0;
+      }
+
+      .cta button {
+        padding: 12px 25px;
+        font-size: 16px;
+        background-color: #0072ff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .cta button:hover {
+        background-color: #005ad1;
+      }
+
+      footer {
+        background-color: #1e1e2f;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        margin-top: 40px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .card {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>FreelancePro</h1>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#">Services</a>
+        <a href="#">Portfolio</a>
+        <a href="#">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h2>Professional Freelance Services</h2>
+      <p>Helping businesses grow with modern web solutions</p>
+    </section>
+
+    <div class="container">
+      <div class="services">
+        <div class="card">
+          <h3>Web Development</h3>
+          <p>
+            I build responsive and high-performance websites using modern
+            technologies like HTML, CSS, JavaScript, React, and Node.js.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Backend Development</h3>
+          <p>
+            REST API development, database integration, authentication systems,
+            and scalable server-side applications.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>UI/UX Design</h3>
+          <p>
+            Clean, modern, and user-friendly designs that improve user
+            engagement and business conversion rates.
+          </p>
+        </div>
+      </div>
+
+      <div class="cta">
+        <h2>Ready to Start Your Project?</h2>
+        <br />
+        <button>Hire Me</button>
+      </div>
+    </div>
+
+    <footer>© 2026 FreelancePro | Designed with passion</footer>
+  </body>
+</html>

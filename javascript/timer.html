@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: rgb(56, 56, 64);
+      }
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+      }
+      .timer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 350px;
+        width: 450px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        background-image: url(rabbit.jpg);
+        background-size: cover;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+      .timer h1 {
+        font-size: 60px;
+        color: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(8px);
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        margin: 20px 0;
+      }
+      .timer p {
+        font-size: 20px;
+      }
+      #time {
+        font-size: 40px;
+      }
+      #start {
+        font-size: 20px;
+      }
+      #stop {
+        font-size: 20px;
+      }
+      .btn {
+        height: 40px;
+        width: 100px;
+        border-radius: 20px;
+        border: none;
+        margin: 5px;
+        font-weight: bold;
+        font-family: cursive;
+        transition: transform 0.2s;
+        border: 2px solid white;
+        color: rgb(51, 50, 50);
+      }
+      .btn:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+      }
+      #start {
+        background-color: rgb(100, 255, 100);
+      }
+      #stop {
+        background-color: rgb(255, 100, 100);
+      }
+      .status {
+        margin: 20px auto;
+        height: 65px;
+        width: 500px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(236, 229, 52, 0.8);
+        backdrop-filter: blur(5px);
+        border-radius: 50px;
+        border: 2px solid white;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+      }
+      p {
+        font-size: 20px;
+        text-decoration-style: solid;
+        font-weight: bold;
+        font-family: cursive;
+        color: #ffffff;
+        text-align: center;
+        text-shadow: 0px 0px 10px 0px rgba(239, 128, 8, 0.5);
+      }
+      .spans {
+        padding: 0 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        transition: 0.3s;
+      }
+      .spans:focus {
+        outline: none;
+        color: white;
+        background: rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="status">
+      <p id="status">Status: Not Started</p>
+    </div>
+    <div class="container">
+      <div class="timer">
+        <h1
+          style="
+            font-size: 50px;
+            font-family: cursive;
+            color: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+            letter-spacing: 2px;
+          "
+        >
+          Timer
+        </h1>
+        <h1 id="time">
+          <span id="hour" contenteditable="true" class="spans">00</span>:<span
+            id="min"
+            contenteditable="true"
+            class="spans"
+            >00</span
+          >:<span id="sec" contenteditable="true" class="spans">00</span>
+        </h1>
+        <button id="start" class="btn" onclick="startTimer()">Start</button>
+        <button id="stop" class="btn" onclick="stopTimer()">Stop</button>
+      </div>
+    </div>
+
+    <script src="timer.js"></script>
+  </body>
+</html>

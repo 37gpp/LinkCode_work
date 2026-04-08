@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=>, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <h1 id="p1"></h1>
+    <script>
+      let name = localStorage.getItem("username");
+      document.getElementById("p1").innerHTML = "hello" + name;
+    </script>
+  </body>
+</html>

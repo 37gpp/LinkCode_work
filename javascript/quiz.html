@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personality Quiz</title>
+    <style>
+      :root {
+        --blue: #0066ff;
+        --yellow: #ffcc00;
+        --red: #ff4d4d;
+        --white: #ffffff;
+      }
+
+      body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: "Arial Rounded MT Bold", Arial, sans-serif;
+        background-color: var(
+          --blue
+        ); /* Matching the blue background from your image */
+      }
+
+      #quiz-container {
+        position: relative;
+        width: 340px;
+        height: 480px;
+      }
+
+      /* Card Stack Effect */
+      .card-shadow {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 100%;
+        height: 100%;
+        background: var(--white);
+        border-radius: 25px;
+        z-index: 1;
+        opacity: 0.5;
+      }
+
+      .card {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: var(--white);
+        border-radius: 25px;
+        padding: 40px 25px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        z-index: 2;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .category-tag {
+        background: var(--blue);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        color: #333;
+        text-align: center;
+        font-size: 1.5rem;
+        line-height: 1.3;
+      }
+
+      .btn-group {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      button {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 15px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-yes {
+        background-color: var(--yellow);
+        color: #333;
+      }
+      .btn-no {
+        background-color: var(--red);
+        color: white;
+      }
+      .btn-yes:hover,
+      .btn-no:hover {
+        transform: scale(1.03);
+        opacity: 0.9;
+      }
+
+      .score-box {
+        margin-top: 20px;
+        color: var(--blue);
+        font-weight: bold;
+      }
+
+      /* Final Animation */
+      @keyframes popIn {
+        0% {
+          transform: scale(0);
+          rotate: -10deg;
+        }
+        100% {
+          transform: scale(1);
+          rotate: 0deg;
+        }
+      }
+
+      .finished {
+        animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="quiz-container">
+      <div class="card-shadow"></div>
+      <div id="card" class="card">
+        <div class="category-tag">Personality Test</div>
+        <h2 id="question">Loading...</h2>
+
+        <div class="btn-group" id="options">
+          <button class="btn-yes" onclick="handleAnswer(20)">
+            Yes, absolutely!
+          </button>
+          <button class="btn-no" onclick="handleAnswer(0)">Not really</button>
+        </div>
+
+        <div class="score-box">
+          Current Score: <span id="display-score">0</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const questions = [
+        "Are you a natural-born leader?",
+        "Do you prefer working in a team?",
+        "Is the glass always half full?",
+        "Do you make decisions quickly?",
+        "Do you enjoy being the center of attention?",
+      ];
+
+      let currentStep = 0;
+      let totalScore = 0;
+
+      // 1. LOAD DATA ON STARTUP
+      window.onload = () => {
+        const savedScore = localStorage.getItem("userScore");
+        const savedStep = localStorage.getItem("userStep");
+
+        if (savedScore && savedStep) {
+          totalScore = parseInt(savedScore);
+          currentStep = parseInt(savedStep);
+
+          // If they already finished, show results immediately
+          if (currentStep >= questions.length) {
+            showResults();
+            return;
+          }
+        }
+        updateUI();
+      };
+
+      function updateUI() {
+        if (currentStep < questions.length) {
+          document.getElementById("question").innerText =
+            questions[currentStep];
+          document.getElementById("display-score").innerText = totalScore;
+        } else {
+          showResults();
+        }
+      }
+
+      function handleAnswer(points) {
+        totalScore += points;
+        currentStep++;
+
+        // 2. SAVE DATA TO LOCAL STORAGE
+        localStorage.setItem("userScore", totalScore);
+        localStorage.setItem("userStep", currentStep);
+
+        // Animate card swipe
+        const card = document.getElementById("card");
+        card.style.transform = "translateX(100px) rotate(10deg) opacity(0)";
+        card.style.opacity = "0";
+
+        setTimeout(() => {
+          card.style.transform = "translateX(0) rotate(0deg)";
+          card.style.opacity = "1";
+          updateUI();
+        }, 300);
+      }
+
+      function showResults() {
+        const card = document.getElementById("card");
+        card.innerHTML = `
+                <div class="finished">
+                    <div style="font-size: 50px;">🏆</div>
+                    <h2 style="color: var(--blue)">Quiz Finished!</h2>
+                    <p>Your Personality Score:</p>
+                    <h1 style="font-size: 3rem; color: var(--red); margin: 10px 0;">${totalScore}</h1>
+                    <button class="btn-yes" onclick="resetQuiz()">Try Again</button>
+                </div>
+            `;
+      }
+
+      function resetQuiz() {
+        localStorage.clear();
+        location.reload();
+      }
+    </script>
+  </body>
+</html>

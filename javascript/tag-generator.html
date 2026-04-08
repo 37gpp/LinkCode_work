@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <style>
+      body {
+        background: #121212;
+        font-family: "Segoe UI", sans-serif;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px;
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 20px;
+        width: 350px;
+        text-align: center;
+      }
+
+      input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        width: 80%;
+        margin-bottom: 10px;
+      }
+
+      .task-item {
+        background: rgba(236, 229, 52, 0.2);
+        border-left: 4px solid #ece534;
+        margin: 10px 0;
+        padding: 10px;
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+      }
+      .warning {
+        background: rgba(255, 0, 0, 0.2);
+        border: 1px solid rgba(255, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        width: 350px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="warning">
+      <p id="warning"></p>
+    </div>
+    <div class="glass-card">
+      <h3>Focus Playlist</h3>
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="What are you working on?"
+      />
+      <div id="playlist"></div>
+    </div>
+
+    <script src="processor.js"></script>
+  </body>
+</html>

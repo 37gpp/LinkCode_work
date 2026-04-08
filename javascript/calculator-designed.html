@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="caalculator.js"></script>
+    <style>
+      #calc {
+        /* height: 540px;
+        width: 500px; */
+        /* border-radius: 30%; */
+        width: 600px;
+        border: #8d8989 solid;
+        border-radius: 23px;
+      }
+      #display-container {
+        background-color: rgb(122, 120, 120);
+        height: 160px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+      }
+      #display {
+        height: 120px;
+        width: 560px;
+        border-radius: 10px;
+        background-color: rgb(56, 55, 55);
+        align-items: center;
+        justify-content: center;
+        margin: 20px;
+      }
+
+      #calc-body {
+        background-color: rgb(209, 206, 206);
+        padding: 10px;
+        gap: 10px;
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        height: 500px;
+      }
+      .btns {
+        height: 100px;
+        width: 100px;
+        border-radius: 10px;
+        background: #8d8989;
+        transform: 2s;
+        text-align: center;
+      }
+      /* #btna {
+        grid-column-start: span 2;
+      } */
+      .wide-btn {
+        border-radius: 10px;
+        background: #f35d96; /* Same as .btns */
+        grid-column: span 2; /* Key: Makes it occupy two consecutive columns */
+        text-align: center;
+        font-size: xx-large;
+        font-weight: 600;
+        transform: 2s;
+      }
+      h1 {
+        text-align: center;
+      }
+      .btns:hover {
+        transform: scale(0.9, 0.9);
+      }
+      .wide-btn:hover {
+        transform: scale(0.9, 0.9);
+      }
+      p {
+        color: aliceblue;
+        font-size: 40px;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="calc">
+      <div id="display-container">
+        <div id="display">
+          <p id="answer">0</p>
+        </div>
+      </div>
+      <div id="calc-body">
+        <div class="btns" id="7"><h1>7</h1></div>
+        <div class="btns" id="8"><h1>8</h1></div>
+        <div class="btns" id="9"><h1>9</h1></div>
+        <div class="btns" id="x"><h1>x</h1></div>
+        <div class="btns" id="4"><h1>4</h1></div>
+        <div class="btns" id="5"><h1>5</h1></div>
+        <div class="btns" id="6"><h1>6</h1></div>
+        <div class="btns" id="div"><h1>÷</h1></div>
+        <div class="btns" id="1"><h1>1</h1></div>
+        <div class="btns" id="2"><h1>2</h1></div>
+        <div class="btns" id="3"><h1>3</h1></div>
+        <div class="btns" id="sub"><h1>-</h1></div>
+        <div class="btns" id="0"><h1>0</h1></div>
+        <div class="btns" id="add"><h1>+</h1></div>
+        <div class="btns" id="clear"><h1>clr</h1></div>
+
+        <div
+          class="btns"
+          id="ans"
+          style="
+            background-color: #f35d96;
+            font-size: xx-large;
+            text-align: center;
+            font-weight: 400;
+          "
+        >
+          Ans
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const answerEl = document.getElementById("answer");
+      let currentInput = "0";
+
+      // Display update function
+      function updateDisplay(value = "0") {
+        answerEl.textContent = value;
+      }
+
+      // Check if last char is operator
+      function isLastOperator() {
+        const last = currentInput.slice(-1);
+        return ["+", "-", "*", "/"].includes(last);
+      }
+
+      // Add number (handles leading zero)
+      function addNumber(num) {
+        if (currentInput === "0" && num !== ".") {
+          currentInput = num;
+        } else {
+          currentInput += num;
+        }
+        updateDisplay(currentInput);
+      }
+
+      // Add operator (replace if duplicate)
+      function addOperator(op) {
+        if (isLastOperator()) {
+          currentInput = currentInput.slice(0, -1) + op;
+        } else {
+          currentInput += op;
+        }
+        updateDisplay(currentInput.replace("*", "×").replace("/", "÷"));
+      }
+
+      // Evaluate
+      function evaluate() {
+        if (!currentInput || currentInput === "0") return;
+
+        let expr = currentInput.replace(/×/g, "*").replace(/÷/g, "/");
+        try {
+          const result = eval(expr);
+          if (!isFinite(result)) throw new Error("Invalid");
+          currentInput = result.toString();
+          updateDisplay(currentInput);
+        } catch {
+          updateDisplay("Error");
+          setTimeout(() => updateDisplay("0"), 1500);
+          currentInput = "0";
+        }
+      }
+
+      // Button mappings
+      const numberButtons = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+      const operatorButtons = {
+        add: "+",
+        sub: "-",
+        x: "*",
+        div: "/",
+      };
+
+      // Attach number listeners
+      numberButtons.forEach((num) => {
+        const btn = document.getElementById(num);
+        if (btn) {
+          btn.addEventListener("click", () => addNumber(num));
+        }
+      });
+
+      // Attach operator listeners
+      Object.entries(operatorButtons).forEach(([btnId, op]) => {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          btn.addEventListener("click", () => addOperator(op));
+        }
+      });
+
+      // Clear
+      document.getElementById("clear")?.addEventListener("click", () => {
+        currentInput = "0";
+        updateDisplay();
+      });
+
+      // Equals
+      document.getElementById("ans")?.addEventListener("click", evaluate);
+
+      // Keyboard support (bonus!)
+      document.addEventListener("keydown", (e) => {
+        if (e.key >= "0" && e.key <= "9") addNumber(e.key);
+        else if (["+", "-", "*", "/"].includes(e.key)) addOperator(e.key);
+        else if (e.key === "Enter" || e.key === "=") evaluate();
+        else if (e.key === "Escape") {
+          currentInput = "0";
+          updateDisplay();
+        }
+      });
+    </script>
+  </body>
+</html>

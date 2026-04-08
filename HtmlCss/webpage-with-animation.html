@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Eater&family=Ole&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    * {
+      font-family: "Ole", cursive;
+    }
+    body {
+      cursor: none;
+    }
+    #container {
+      height: 1000px;
+      width: 100vw;
+      background-color: rgb(6, 88, 88);
+      display: flex;
+    }
+    .box {
+      height: 200px;
+      width: 300px;
+      background-color: aqua;
+      border-radius: 30%;
+      animation-name: box-animation;
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+      animation-delay: 1s;
+      animation-direction: alternate;
+      /* animation-play-state: paused; */
+      /* animation-fill-mode: backwards; */
+      text-align: center;
+      font-size: 100px;
+      color: white;
+    }
+    @keyframes box-animation {
+      from {
+        background-color: aqua;
+      }
+      to {
+        transform: translateX(1000px);
+        background-color: rgb(8, 92, 92);
+      }
+    }
+    .box4 {
+      height: 200px;
+      width: 300px;
+      background-color: aqua;
+      border-radius: 30%;
+      animation-name: box-animation4;
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+      animation-delay: 1s;
+      animation-direction: alternate;
+      /* animation-play-state: paused; */
+      /* animation-fill-mode: backwards; */
+      text-align: center;
+      font-size: 100px;
+      color: white;
+    }
+    @keyframes box-animation4 {
+      from {
+        /* background-color: aqua; */
+        transform: translateX(1000px);
+        background-color: rgb(8, 92, 92);
+      }
+      to {
+        /* transform: translateX(1000px);
+        background-color: rgb(8, 92, 92); */
+        background-color: aqua;
+      }
+    }
+    .box2 {
+      height: 200px;
+      width: 300px;
+      background-color: aqua;
+      border-radius: 30%;
+      animation-name: box-animation2;
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+      animation-delay: 1s;
+      animation-direction: alternate;
+      /* animation-play-state: paused; */
+      /* animation-fill-mode: backwards; */
+      text-align: center;
+      font-size: 100px;
+      color: white;
+    }
+    @keyframes box-animation2 {
+      from {
+        /* background-color: aqua; */
+        transform: translateX(1000px);
+        background-color: rgb(8, 92, 92);
+      }
+      to {
+        /* transform: translateX(1000px);
+        background-color: rgb(8, 92, 92); */
+        background-color: aqua;
+      }
+    }
+    .box3 {
+      height: 200px;
+      width: 300px;
+      background-color: aqua;
+      border-radius: 30%;
+      animation-name: box-animation3;
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+      animation-delay: 1s;
+      animation-direction: alternate;
+      /* animation-play-state: paused; */
+      /* animation-fill-mode: backwards; */
+      text-align: center;
+      font-size: 100px;
+      color: white;
+    }
+    @keyframes box-animation3 {
+      from {
+        background-color: aqua;
+      }
+      to {
+        transform: translateX(1000px);
+        background-color: rgb(8, 92, 92);
+      }
+    }
+    #left {
+      width: 50vw;
+    }
+    #right {
+      width: 50vw;
+    }
+    img {
+      height: 1000px;
+      width: 1000px;
+      /* box-shadow: 0 150px 0 10px rgba(0, 0, 0, 0.2); */
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      list-style: none; /* remove list bullets */
+      padding: 0px;
+    }
+
+    .pagination li a {
+      display: block; /* let links fill the list item */
+      padding: 8px 12px;
+      text-decoration: none;
+      border: 1px solid gray;
+      color: black;
+      margin: 0 4px;
+      border-radius: 5px; /* add rounded borders */
+    }
+
+    .heading2 {
+      font-family: "Ole", cursive;
+      font-size: 90px;
+      text-align: center;
+    }
+
+    /* Hide the default cursor for a custom experience */
+    body {
+      cursor: none;
+    }
+
+    #custom-cursor {
+      width: 20px;
+      height: 20px;
+      background: rgba(0, 255, 255, 0.5);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.1s ease-out, width 0.3s, height 0.3s;
+      /* background 0.3s; */
+    }
+
+    /* When hovering over boxes, the cursor expands */
+    .cursor-expand {
+      transform: scale(4);
+      background: rgba(255, 255, 255, 0.2) !important;
+      backdrop-filter: invert(1);
+    }
+
+    /* Modern "Skew" animation for sections */
+    .box,
+    .box2,
+    .box3,
+    .box4 {
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .box:hover,
+    .box2:hover,
+    .box3:hover,
+    .box4:hover {
+      transform: skewX(-10deg) scale(1.1) !important;
+      filter: drop-shadow(0 0 20px #00ffff);
+    }
+    #camera {
+      width: auto;
+      align-items: center;
+      margin-top: 0px;
+      justify-content: center;
+    }
+  </style>
+  <body>
+    <div id="container">
+      <div id="left">
+        <div class="box">Today</div>
+        <div class="box2">is</div>
+        <div class="box3">your</div>
+        <div class="box4">day</div>
+      </div>
+      <div id="right">
+        <img src="model-img-Photoroom.png" />
+      </div>
+    </div>
+    <h1 class="heading2">Enhance with Clothing</h1>
+    <div class="container">
+      <ul class="pagination">
+        <li><a href="page1.html">&laquo;</a></li>
+        <li><a href="page1.html">1</a></li>
+        <li><a href="page2.html">2</a></li>
+        <li><a href="page3.html">3</a></li>
+        <!-- <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">&raquo;</a></li> -->
+      </ul>
+    </div>
+    <img
+      src="camera-Photoroom.png"
+      alt="camera"
+      id="camera"
+      style="height: 3000px"
+    />
+    <div id="custom-cursor"></div>
+  </body>
+
+  <script>
+    const cursor = document.querySelector("#custom-cursor");
+    const boxes = document.querySelectorAll(
+      ".box, .box2, .box3, .box4, .pagination li a"
+    );
+
+    // Follow Mouse
+    document.addEventListener("mousemove", (e) => {
+      cursor.style.left = e.clientX + "px";
+      cursor.style.top = e.clientY + "px";
+    });
+
+    // Interaction Logic
+    boxes.forEach((box) => {
+      box.addEventListener("mouseenter", () => {
+        cursor.classList.add("cursor-expand");
+      });
+      box.addEventListener("mouseleave", () => {
+        cursor.classList.remove("cursor-expand");
+      });
+    });
+
+    // Smooth Magnetic Effect for the Main Image
+    const imgContainer = document.querySelector("#camera img");
+    document.addEventListener("mousemove", (e) => {
+      const x = (window.innerWidth / 2 - e.pageX) / 30;
+      const y = (window.innerHeight / 2 - e.pageY) / 30;
+      imgContainer.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+    });
+  </script>
+</html>

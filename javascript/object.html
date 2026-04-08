@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1></h1>
+    name:<input type="text" name="fname" id="fname" /><br />
+    age:<input type="number" name="age" id="age" /><br />
+    <button onclick="display()"></button>
+    <h1>output</h1>
+    <p id="demo"></p>
+    <script>
+      function display() {
+        //calling value in input element
+
+        let fname = document.getElementById("fname").value;
+        let age = document.getElementById("age").value;
+
+        // const obj = {
+        //   name: fname,
+        //   age: age,
+        // };
+
+        const storage = localStorage.setItem("username", fname);
+
+        window.location.href = "nextpage.html";
+        // document.getElementById("demo").innerText =
+        //   "Name is" + obj.name + "Age is :" + age;
+      }
+    </script>
+  </body>
+</html>
+<!-- </html>for calling frontend to backend = name attribute -->
+<!-- // const teacher ={
+    //     name: "priya",
+    //     subject: "hindi"
+    //     };
+    //     document.getElementById("demo").innerHTML = "" -->
+<!-- <h1>(Teacher) Object</h1>
+    <p id="demo"></p> -->

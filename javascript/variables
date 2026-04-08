@@ -1,0 +1,43 @@
+// let name = "Diksha";
+// let avg = 94;
+// let LastName = "Dhanve";
+// let age = 19;
+
+// document.writeIn(typeof name);
+// document.writeIn(typeof avg);
+// document.writeIn(typeof LastName);
+// document.writeIn(typeof age);
+
+// document.write(age);
+// console.log(age);
+// console.log(name);
+// console.log(LastName);
+// console.log(avg);
+// document.writeln(`${age}`);
+
+// let a = 20;
+// let b = 5;
+// console.log(a + b);
+// console.log(a - b);
+// console.log(a * b);
+// console.log(a / b);
+// console.log(a % b);
+// console.log(a ** b);
+
+// let a = 5;
+// console.log(a);
+// console.log(--a);
+// console.log(a++);
+// console.log(a);
+// console.log(++a);
+// console.log(a);
+// console.log(a);
+
+let age = parseInt(prompt("Enter your age:"));
+if (age > 18) {
+  console.log("you are allowded to drive .");
+} else if (age > 0 && age < 18) {
+  console.log("you can drive later . please keep patience.");
+} else {
+  console.log("Enter the valid age");
+}

@@ -1,0 +1,15 @@
+.circle {
+  width: 100px;
+  height: 100px;
+  background-color: blueviolet;
+  transition: 2s;
+  border-radius: 50%;
+  margin: 30px;
+}
+.circle:hover {
+  /* border-radius: 50%; */
+  width: 300px;
+  height: 300px;
+  transform: rotate(0deg);
+  margin: 15px 300px;
+}
