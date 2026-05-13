@@ -1,0 +1,16 @@
+streamlit
+langgraph
+langgraph-checkpoint-sqlite
+langchain
+langchain-core
+langchain-community
+langchain-groq
+langchain-huggingface
+langchain-text-splitters
+langchain-mcp-adapters
+langsmith
+faiss-cpu
+pypdf
+python-dotenv
+mcp
+sentence-transformers
