@@ -1,11 +1,10 @@
-﻿.env
+.env
 venv/
 __pycache__/
 *.db
 *.db-shm
 *.db-wal
 faiss_index/
-assets/
 *.pdf
 chat_history*
 checkpoints*
