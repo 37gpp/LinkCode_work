@@ -22,41 +22,45 @@ if "quiz_idx" not in st.session_state:
     st.session_state.quiz_idx = 0
 if "quiz_score" not in st.session_state:
     st.session_state.quiz_score = 0
-#Test Paper
+if "quiz_answered" not in st.session_state:
+    st.session_state.quiz_answered = False
+if "quiz_selected" not in st.session_state:
+    st.session_state.quiz_selected = None
+# Test Paper
 if "test_paper" not in st.session_state:
-    st.session_state.test_paper = None           # list of sections
+    st.session_state.test_paper = None
 if "test_paper_finalized" not in st.session_state:
     st.session_state.test_paper_finalized = False
 if "test_paper_config" not in st.session_state:
-    st.session_state.test_paper_config = None    # exam metadata
+    st.session_state.test_paper_config = None
 if "regenerating_section" not in st.session_state:
-    st.session_state.regenerating_section = None # index of section being regenerated
-# Sidebar
+    st.session_state.regenerating_section = None
+
+# Sidebar 
 with st.sidebar:
-    col1, col2 = st.columns([1, 4])
+    col1, col2 = st.columns([1, 4])#col1 1part and col2 4part of the sidebar width
     with col1:
         st.image("assets/tutoring.png", width=40)
     with col2:
-        st.title("Study Assistant")
+        st.title("LearNest")
 
-    if st.button("[Chat+]"):
+    if st.button("[Chat+]", key="new_chat_btn"):
         st.session_state.thread_id = str(uuid.uuid4())
         st.session_state.message_history = []
         st.rerun()
 
     st.divider()
     st.subheader("Previous Chats")
-
-#ADDING BUTTON FOR CHAT HISTORY SECTION
+    #dictionarry will have {tid, title} by usih list() apn tyala list madhey convert kela
     for tid, title in reversed(list(st.session_state.chat_threads.items())):
-        if st.button(title, key=f"t_{tid}", use_container_width=True):#to resolvve the confusion created the key 
+        if st.button(title, key=f"t_{tid}", use_container_width=True):
             st.session_state.thread_id = tid
             try:
-                state = backend.chatbot.get_state({"configurable": {"thread_id": tid}}).values#fetching all messages from the thread
+                state = backend.chatbot.get_state({"configurable": {"thread_id": tid}}).values
                 msgs = state.get("messages", [])
                 st.session_state.message_history = [
-                    {"role": "user" if isinstance(m, HumanMessage) else "assistant", "content": m.content}#msgs=[humanMessage("hi"), AiMEssage("hello")] each obj of this dict is "m"
-                    for m in msgs if getattr(m, 'content', '').strip()#removing empty messages
+                    {"role": "user" if isinstance(m, HumanMessage) else "assistant", "content": m.content}
+                    for m in msgs if getattr(m, 'content', '').strip()
                 ]
             except:
                 st.session_state.message_history = []
@@ -64,9 +68,7 @@ with st.sidebar:
 
     st.divider()
 
-
-#HANDLING UPLOADES
-    uploaded = st.file_uploader("Upload Notes", type=["pdf", "txt"])#this will return a file object if the user uploads a file, or None if they don't  
+    uploaded = st.file_uploader("Upload Notes", type=["pdf", "txt"])
 
     if "last_uploaded_file" not in st.session_state:
         st.session_state.last_uploaded_file = None
@@ -75,21 +77,18 @@ with st.sidebar:
         path = f"temp_{uploaded.name}"
         with open(path, "wb") as f:
             f.write(uploaded.getbuffer())
-
         with st.spinner("Processing..."):
             create_index(path)
-
         if os.path.exists(path):
             os.remove(path)
-
         st.session_state.last_uploaded_file = uploaded.name
-        st.success(f" {uploaded.name} processed!")
+        st.success(f"{uploaded.name} processed!")
         st.rerun()
 
 
-# HELPER: Generate one section of the test paper
+#  Helper: generate one test paper section
 def generate_section(context: str, marks_per_q: int, num_questions: int, topic_hint: str = ""):
-    import json, re#json converts string into pyrhon list and re cleans unwanted text (like ``````)
+    import json, re
 
     topic_clause = f" focused on '{topic_hint}'" if topic_hint else ""
     prompt = f"""
@@ -109,16 +108,19 @@ Example:
   ...
 ]
 """
-    raw = backend.generate_test_section(prompt)  
-    raw = re.sub(r"```(?:json)?|```", "", raw).strip()
+    raw = backend.generate_test_section(prompt)
+    raw = re.sub(r"```(?:json)?|```", "", raw).strip()# re is a regular expression module.
     try:
         data = json.loads(raw)
         return data if isinstance(data, list) else []
     except Exception:
         return []
-# MAIN
-st.title("Your Assistant")
+
+
+# Tab creation
+st.title("Your nest for learning")
 tab_chat, tab_quiz, tab_test = st.tabs(["Chat", "Quiz", "Test Paper"])
+
 
 # TAB: CHAT
 with tab_chat:
@@ -129,10 +131,8 @@ with tab_chat:
     with chat_history_container:
         for msg in st.session_state.message_history:
             with st.chat_message(msg["role"]):
-                st.markdown(msg["content"])#a simple way to format text using symbol instead of html
-#rag is used here......||
-#                      ||
-#                      \/
+                st.markdown(msg["content"])
+
     retriever = get_retriever()
 
     if user_input := st.chat_input("Ask anything..."):
@@ -176,7 +176,8 @@ with tab_chat:
                 except Exception as e:
                     st.error(f"Error: {str(e)}")
 
-# TAB:QUIZ
+
+# TAB: QUIZ
 with tab_quiz:
     st.image("assets/speech-bubble.png", width=30)
 
@@ -186,61 +187,114 @@ with tab_quiz:
         st.info("Please upload notes first to generate a smart quiz based on your documents.")
     else:
         if not st.session_state.quiz_active:
-            n = st.slider("Number of Questions", min_value=3, max_value=100, value=50)
+            n = st.slider("Number of Questions", min_value=3, max_value=100, value=10, key="quiz_slider")
 
-            if st.button("Start Quiz", type="primary"):
-                with st.spinner("Analyzing documents and generating questions..."):
-                    docs = retriever.invoke("key concepts topics summary")
-                    context = "\n".join([doc.page_content for doc in docs])
-                    qs = backend.generate_quiz(context, n)
+            if st.button("Start Quiz", type="primary", key="start_quiz_btn"):
+                docs = retriever.invoke("key concepts topics summary")
+                context = "\n".join([doc.page_content for doc in docs])
 
-                    if qs:
-                        st.session_state.quiz_questions = qs
-                        st.session_state.quiz_idx = 0
-                        st.session_state.quiz_score = 0
-                        st.session_state.quiz_active = True
-                        st.rerun()
-                    else:
-                        st.error("Could not extract enough information for a quiz. Try uploading more detailed notes.")
+                st.markdown(f"Generating **{n}** questions in batches of 10…")
+                progress_bar = st.progress(0)
+                status_text  = st.empty()
+
+                def update_progress(done, total):
+                    pct = min(done / total, 1.0)
+                    progress_bar.progress(pct)
+                    status_text.text(f"Generated {done} / {total} questions…")
+
+                qs = backend.generate_quiz(context, n, progress_callback=update_progress)
+
+                progress_bar.empty()
+                status_text.empty()
+
+                if qs:
+                    st.session_state.quiz_questions = qs
+                    st.session_state.quiz_idx       = 0
+                    st.session_state.quiz_score     = 0
+                    st.session_state.quiz_active    = True
+                    st.session_state.quiz_answered  = False
+                    st.session_state.quiz_selected  = None
+                    st.rerun()
+                else:
+                    st.error("Could not generate any questions. Try uploading more detailed notes.")
+
         else:
-            idx = st.session_state.quiz_idx
-            if idx < len(st.session_state.quiz_questions):
+            idx   = st.session_state.quiz_idx
+            total = len(st.session_state.quiz_questions)
+
+            if idx < total:
                 q = st.session_state.quiz_questions[idx]
 
-                st.progress(idx / len(st.session_state.quiz_questions))
-                st.subheader(f"Q{idx+1}: {q['question']}")
+                st.progress(idx / total)
+                st.caption(f"Question {idx + 1} of {total}  •  Score: {st.session_state.quiz_score}/{idx}")
+                st.subheader(f"Q{idx + 1}: {q['question']}")
 
-                answer_options = list(q["options"].values())
-                user_choice = st.radio("Select your answer:", answer_options, key=f"q_{idx}")
+                if not st.session_state.quiz_answered:
+                    # ── Unanswered: show options + submit ──
+                    answer_options = list(q["options"].values())
+                    user_choice = st.radio("Select your answer:", answer_options, key=f"q_{idx}")
 
-                if st.button("Submit Answer", key=f"sub_{idx}"):
-                    selected_key = [k for k, v in q["options"].items() if v == user_choice][0]
+                    if st.button("Submit Answer", type="primary", key=f"sub_{idx}"):
+                        selected_key = [k for k, v in q["options"].items() if v == user_choice][0]
+                        st.session_state.quiz_selected = selected_key
+                        st.session_state.quiz_answered = True
+                        if selected_key == q["answer"]:
+                            st.session_state.quiz_score += 1
+                        st.rerun()
 
-                    if selected_key == q["answer"]:
-                        st.success(" Correct!")
-                        st.session_state.quiz_score += 1
+                else:
+                    # ── Answered: show color-coded options + explanation ──
+                    selected_key = st.session_state.quiz_selected
+                    correct_key  = q["answer"]
+
+                    for key, text in q["options"].items():
+                        if key == correct_key:
+                            st.success(f" {key}: {text}   ← Correct answer")
+                        elif key == selected_key:
+                            st.error(f" {key}: {text}   ← Your answer")
+                        else:
+                            st.markdown(f"&emsp; {key}: {text}")
+
+                    if selected_key == correct_key:
+                        st.success("✓ Well done, that's correct!")
                     else:
-                        st.error(f" Wrong. The correct answer was {q['answer']}: {q['options'][q['answer']]}")
+                        st.error(f"✗The correct answer was **{correct_key}: {q['options'][correct_key]}**")
 
-                    st.session_state.quiz_idx += 1
-                    st.rerun()
+                    explanation = q.get("explanation:", "")
+                    if explanation:
+                        st.info(f"Why? {explanation}")
+
+                    st.markdown("")
+                    if st.button("Next Question →", key=f"next_{idx}"):
+                        st.session_state.quiz_idx     += 1
+                        st.session_state.quiz_answered = False
+                        st.session_state.quiz_selected = None
+                        st.rerun()
+
             else:
+                # Quiz complete
                 st.balloons()
-                st.success(f"### Quiz Finished! \n\n **Final Score:** {st.session_state.quiz_score}/{len(st.session_state.quiz_questions)}")
-                if st.button("Generate New Quiz"):
-                    st.session_state.quiz_active = False
+                st.success(
+                    f"✓ Quiz Finished! \n\n"
+                    f"Final Score:{st.session_state.quiz_score} / {total} "
+                    f"({round(st.session_state.quiz_score / total * 100)}%)"
+                )
+                if st.button("Generate New Quiz", key="new_quiz_btn"):
+                    st.session_state.quiz_active    = False
                     st.session_state.quiz_questions = []
+                    st.session_state.quiz_answered  = False
+                    st.session_state.quiz_selected  = None
                     st.rerun()
 
-# TAB-->TEST PAPER
+
+# TAB: TEST PAPER
 with tab_test:
     st.markdown("### Test Paper Generator")
-    st.caption("Generate a full theory exam paper with a matching solution sheet. You can Review and regenerate any section before finalizing.")
+    st.caption("Generate a full theory exam paper with a matching solution sheet. Review and regenerate any section before finalizing.")
 
     retriever = get_retriever()
 
-    # Configuration form
-   
+    #  Step 1: Configuration form
     if st.session_state.test_paper is None:
         st.markdown("#### Step 1: Configure Your Paper")
 
@@ -255,30 +309,15 @@ with tab_test:
             col1, col2, col3 = st.columns(3)
             with col1:
                 use_2   = st.checkbox("2-mark questions", value=True)
-                marks_2 = st.number_input(
-                    "Total marks (2-mark section)",
-                    min_value=0, max_value=300, value=20, step=2,
-                    disabled=not use_2
-                )#no. of questions
+                marks_2 = st.number_input("Total marks (2-mark section)", min_value=0, max_value=300, value=20, step=2, disabled=not use_2)
             with col2:
                 use_5   = st.checkbox("5-mark questions", value=True)
-                marks_5 = st.number_input(
-                    "Total marks (5-mark section)",
-                    min_value=0, max_value=300, value=40, step=5,
-                    disabled=not use_5
-                )
+                marks_5 = st.number_input("Total marks (5-mark section)", min_value=0, max_value=300, value=40, step=5, disabled=not use_5)
             with col3:
                 use_10  = st.checkbox("10-mark questions", value=True)
-                marks_10 = st.number_input(
-                    "Total marks (10-mark section)",
-                    min_value=0, max_value=300, value=40, step=10,
-                    disabled=not use_10
-                )
+                marks_10 = st.number_input("Total marks (10-mark section)", min_value=0, max_value=300, value=40, step=10, disabled=not use_10)
 
-            topic_hint = st.text_input(
-                "Topic / Chapter focus (optional)",
-                placeholder="e.g. Thermodynamics, World War II, Recursion"
-            )
+            topic_hint = st.text_input("Topic / Chapter focus (optional)", placeholder="e.g. Thermodynamics, World War II, Recursion")
 
             submitted = st.form_submit_button("Generate Test Paper", type="primary")
 
@@ -343,9 +382,7 @@ with tab_test:
                     }
                     st.rerun()
 
-  
-    # Human- in the-loop 
-
+    #Step 2: Human-in-the-loop review
     elif not st.session_state.test_paper_finalized:
         cfg = st.session_state.test_paper_config
 
@@ -359,14 +396,11 @@ with tab_test:
 
         for sec_idx, section in enumerate(st.session_state.test_paper):
             with st.expander(f"{section['label']}", expanded=True):
-
-                # Display all questions in this section (answers hidden here)
                 for q_idx, item in enumerate(section["questions"]):
                     st.markdown(f"**Q{q_idx + 1}.** {item['question']}")
 
                 st.markdown("")
 
-                # Trigger regeneration
                 if st.session_state.regenerating_section == sec_idx:
                     with st.spinner(f"Regenerating {section['marks_per_q']}-mark questions..."):
                         new_qs = generate_section(
@@ -383,7 +417,7 @@ with tab_test:
                     st.session_state.regenerating_section = None
                     st.rerun()
 
-                if st.button(f"Regenerate this section", key=f"regen_{sec_idx}"):
+                if st.button("Regenerate this section", key=f"regen_{sec_idx}"):
                     st.session_state.regenerating_section = sec_idx
                     st.rerun()
 
@@ -391,19 +425,17 @@ with tab_test:
 
         col_reset, col_finalize = st.columns([1, 2])
         with col_reset:
-            if st.button("Start Over"):
+            if st.button("Start Over", key="start_over_btn"):
                 st.session_state.test_paper           = None
                 st.session_state.test_paper_finalized = False
                 st.session_state.test_paper_config    = None
                 st.rerun()
         with col_finalize:
-            if st.button("Looks Good. Finalize Paper", type="primary"):
+            if st.button("Looks Good. Finalize Paper", type="primary", key="finalize_btn"):
                 st.session_state.test_paper_finalized = True
                 st.rerun()
 
-   
-    # STEP 3: Finalized — Question Paper + Solution Paper
-  
+    #Step 3: Finalized — Question Paper + Solution Paper
     else:
         cfg = st.session_state.test_paper_config
 
@@ -411,7 +443,7 @@ with tab_test:
 
         col_new, _ = st.columns([1, 3])
         with col_new:
-            if st.button("Create New Paper"):
+            if st.button("Create New Paper", key="create_new_btn"):
                 st.session_state.test_paper           = None
                 st.session_state.test_paper_finalized = False
                 st.session_state.test_paper_config    = None
@@ -419,16 +451,13 @@ with tab_test:
 
         paper_tab, solution_tab = st.tabs(["Question Paper", "Solution Paper"])
 
-        # ── Question Paper ──────────────────────
         with paper_tab:
             st.markdown(f"## {cfg['title']}")
             st.markdown(
                 f"**Total Marks:** {cfg['total_marks']} &nbsp;&nbsp;&nbsp; "
                 f"**Time Allowed:** {cfg['time_allowed']}"
             )
-            st.markdown(
-                "_Instructions: Answer all questions. Write neatly and show all working where applicable._"
-            )
+            st.markdown("_Instructions: Answer all questions. Write neatly and show all working where applicable._")
             st.divider()
 
             q_counter = 1
@@ -443,7 +472,6 @@ with tab_test:
                     q_counter += 1
                 st.divider()
 
-        # ── Solution Paper ───────────────────────
         with solution_tab:
             st.markdown(f"## {cfg['title']} : SOLUTION / MARKING SCHEME")
             st.markdown(f"**Total Marks:** {cfg['total_marks']}")

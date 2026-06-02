@@ -6,8 +6,8 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings #used to convert text into vector form
 from langchain_community.vectorstores import FAISS
 
-FAISS_INDEX_PATH = "faiss_index"
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")#model obj
+FAISS_INDEX_PATH = "faiss_index"            
+embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")#model obj 384 vector size.
 
 def create_index(file_path: str):
     if os.path.exists(FAISS_INDEX_PATH):
@@ -34,7 +34,7 @@ def get_retriever():
         vector_store = FAISS.load_local(
             FAISS_INDEX_PATH, 
             embeddings, 
-            allow_dangerous_deserialization=True
+            allow_dangerous_deserialization=True#used to load the index from disk
         )
         return vector_store.as_retriever(search_kwargs={"k": 4})
     except Exception as e:
